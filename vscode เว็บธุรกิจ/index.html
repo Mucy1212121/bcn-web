@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio | Piyapat Siseang</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anuphan:wght@300;400;600;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- ตั้งค่าพื้นฐาน (Reset & Variables) --- */
+        :root {
+            --bg-dark: #0b1416;       /* สีพื้นหลังหลัก ดำลึกแบบ Reddit New */
+            --bg-card: #1a282d;       /* สีการ์ด/กล่องข้อความ */
+            --brand-orange: #ff4500;  /* สีส้ม Reddit สำหรับเน้นจุดสำคัญ */
+            --brand-orange-hover: #ff5722;
+            --text-main: #f2f4f5;     /* สีตัวอักษรหลัก */
+            --text-muted: #878a8c;    /* สีตัวอักษรจาง */
+            --border-color: #2c3e46;  /* สีเส้นขอบ */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', 'Anuphan', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* --- แถบเมนูด้านบน (Navigation Bar) --- */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: rgba(11, 20, 22, 0.95);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 10%;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+
+        nav .logo {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        nav .logo span {
+            color: var(--brand-orange);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        nav ul li a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: var(--brand-orange);
+        }
+
+        /* --- ส่วนต้อนรับหลัก (Hero Section) --- */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+            padding-top: 80px;
+            background: radial-gradient(circle at center, rgba(255,69,0,0.1) 0%, rgba(11,20,22,1) 70%);
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            letter-spacing: -1px;
+        }
+
+        .hero h1 span {
+            color: var(--brand-orange);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            background-color: var(--brand-orange);
+            color: #ffffff;
+            padding: 12px 30px;
+            border-radius: 999px;
+            text-decoration: none;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s, background-color 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 15px rgba(255, 69, 0, 0.3);
+        }
+
+        .btn:hover {
+            background-color: var(--brand-orange-hover);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 69, 0, 0.5);
+        }
+
+        /* --- ส่วนเนื้อหาหลัก (Profile Content Section) --- */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 80px 20px;
+        }
+
+        .main-layout {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+        }
+
+        /* การ์ดฝั่งซ้าย (ข้อมูลหลัก + รูปภาพ) */
+        .content-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 40px;
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .content-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255, 69, 0, 0.4);
+        }
+
+        /* โซนแสดงรูปโปรไฟล์แบบวงกลมพร้อมเอฟเฟกต์ */
+        .profile-image-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .profile-img {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--brand-orange);
+            box-shadow: 0 0 20px rgba(255, 69, 0, 0.4);
+            transition: transform 0.5s ease;
+        }
+
+        /* ลูกเล่นเมื่อเอาเมาส์มาวางที่รูปภาพ รูปจะหมุนและขยายเล็กน้อย */
+        .profile-img:hover {
+            transform: scale(1.05) rotate(5deg);
+            box-shadow: 0 0 30px rgba(255, 69, 0, 0.7);
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            color: var(--brand-orange);
+            margin-bottom: 25px;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 10px;
+            display: inline-block;
+        }
+
+        .profile-info {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background-color: rgba(11, 20, 22, 0.5);
+            border-left: 4px solid var(--brand-orange);
+            border-radius: 0 8px 8px 0;
+            transition: background-color 0.2s;
+        }
+
+        .info-item:hover {
+            background-color: rgba(255, 69, 0, 0.05);
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: var(--text-muted);
+            width: 150px;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+        }
+
+        .info-value {
+            color: var(--text-main);
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        /* --- การ์ดฝั่งขวา (Sidebar) --- */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .sidebar-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 25px;
+        }
+
+        .sidebar-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            color: var(--text-main);
+        }
+
+        .widget-list {
+            list-style: none;
+        }
+
+        .widget-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .widget-list li:last-child {
+            border-bottom: none;
+        }
+
+        .widget-list span {
+            color: var(--brand-orange);
+            font-weight: 600;
+        }
+
+        /* --- ส่วนท้ายเว็บ (Footer) --- */
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            background-color: #060a0c;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .main-layout {
+                grid-template-columns: 1fr;
+            }
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            nav ul {
+                display: none;
+            }
+            .info-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+            }
+            .info-label {
+                width: 100%;
+            }
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">PORT<span>FOLIO</span></div>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#about">About</a></li>
+        </ul>
+    </nav>
+
+    <section class="hero">
+        <h1>ยินดีต้อนรับ, ผมคือ <span>ปิยะภัทร</span></h1>
+        <p>ยินดีต้อนรับเข้าสู่เว็บไซต์แนะนำตัวอย่างเป็นทางการในสไตล์ Dark Mode</p>
+        <a href="#about" class="btn">ทำความรู้จักกันเลย</a>
+    </section>
+
+    <main class="container" id="about">
+        <div class="main-layout">
+            
+            <div class="content-card">
+                
+                <div class="profile-image-container">
+                    <img class="profile-img" src="manggorn.jpg" alt="ปิยะภัทร สีแสง">
+                </div>
+
+                <h2 class="section-title">ข้อมูลส่วนตัว (Profile)</h2>
+                <div class="profile-info">
+                    
+                    <div class="info-item">
+                        <div class="info-label">ชื่อ-นามสกุล</div>
+                        <div class="info-value">นายปิยะภัทร สีแสง</div>
+                    </div>
+
+                    <div class="info-item">
+                        <div class="info-label">รหัสนักศึกษา</div>
+                        <div class="info-value">6812732138</div>
+                    </div>
+
+                    <div class="info-item">
+                        <div class="info-label">ที่อยู่ปัจจุบัน</div>
+                        <div class="info-value">อ.เมือง จ.ศรีสะเกษ</div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="sidebar">
+                <div class="sidebar-card">
+                    <h3>เกี่ยวกับนักพัฒนา</h3>
+                    <ul class="widget-list">
+                        <li>สถานะ: <span>กำลังศึกษา</span></li>
+                        <li>สาขา: <span>วิทยาการคอมพิวเตอร์</span></li>
+                        <li>บ้านเกิด: <span>ศรีสะเกษ</span></li>
+                    </ul>
+                </div>
+
+                <div class="sidebar-card" style="text-align: center;">
+                    <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 15px;">
+                        "โค้ดนี้ถูกออกแบบโดยอ้างอิงธีมสี Dark Mode และ UI Components ที่ทันสมัย"
+                    </p>
+                    <button class="btn" style="width: 100%; padding: 10px;" onclick="alert('ยินดีที่ได้รู้จักครับคุณปิยะภัทร!')">ทักทาย</button>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Piyapat Siseang. All Rights Reserved. Built with HTML & CSS inside VS Code.</p>
+    </footer>
+
+</body>
+</html>
